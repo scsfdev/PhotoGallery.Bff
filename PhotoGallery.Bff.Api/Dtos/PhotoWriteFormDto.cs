@@ -13,5 +13,8 @@
 
         // File for upload
         public IFormFile? File { get; set; }    // null = No upload action, not null = Upload to GCS.
+
+        // For tagging categories
+        public ICollection<Guid> CategoryGuids { get; set; } = [];
     }
 }
