@@ -82,9 +82,12 @@ namespace PhotoGallery.Bff.Api.Controllers
             
             // If result ok, need to pull User Display name from UserService by userId.
             var userProfileResult = await bffService.GetUserProfileAsync(result.Data!.Id);
-            if (!result.Success)
-                return BadRequest("Cannot retrieve user profile!");
 
+            // If no profile, something wrong, just return bad request.
+            if (!userProfileResult.Success)
+                 return BadRequest("Cannot retrieve user profile!");
+
+            // If no profile , just return empty display name.
             var authResponse = new AuthResponseDto
             {
                 Id = result.Data!.Id,
