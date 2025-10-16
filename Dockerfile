@@ -5,7 +5,7 @@ FROM mcr.microsoft.com/dotnet/sdk:9.0 AS build
 WORKDIR /src
 
 
-# ---------- 2. Build PhotoGallery.Bff ----------
+# ---------- Build PhotoGallery.Bff ----------
 # Copy solution and project files for restore caching
 COPY PhotoGallery.Bff/PhotoGallery.Bff.sln PhotoGallery.Bff/
 COPY PhotoGallery.Bff/PhotoGallery.Bff.Api/PhotoGallery.Bff.Api.csproj PhotoGallery.Bff/PhotoGallery.Bff.Api/

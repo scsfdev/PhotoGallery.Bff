@@ -4,8 +4,52 @@ using PhotoGallery.Bff.Api.Shared;
 
 namespace PhotoGallery.Bff.Api.Services
 {
-    public class PhotoGalleryOrchestrator(PhotoServiceClient photoClient, CategoryServiceClient categoryClient) 
+    public class PhotoGalleryOrchestrator(AuthServiceClient authClient, UserServiceClient userClient, PhotoServiceClient photoClient, CategoryServiceClient categoryClient) 
     {
+        #region User Authorization/Authentication related
+
+        public async Task<ServiceResult<AuthResponseDto>> RegisterUserAsync(RegisterRequestDto registerDto)
+        {
+            return await authClient.RegisterAsync(registerDto);
+        }
+
+        public async Task<ServiceResult<AuthResponseDto>> LoginUserAsync(LoginRequestDto loginDto)
+        {
+            return await authClient.LoginAsync(loginDto);
+        }
+
+        public async Task<ServiceResult<string>> ChangePasswordAsync(ChangePwdRequestDto changePwdDto)
+        {
+            return await authClient.ChangePasswordAsync(changePwdDto);
+        }
+        
+        public async Task<ServiceResult<string>> DeactivateUserAsync(Guid userGuid)
+        {
+            return await authClient.DeactivateAsync(userGuid);
+        }
+
+        #endregion
+
+
+        #region UserProfile related
+
+        public async Task<ServiceResult<IEnumerable<UserProfileDto>>> GetAllUserProfilesAsync()
+        {
+            return await userClient.GetAllProfilesAsync();
+        }
+
+        public async Task<ServiceResult<UserProfileDto>> GetUserProfileAsync(string userId)
+        {
+            return await userClient.GetUserDisplayNameAsync(userId);
+        }
+
+        public async Task<ServiceResult<bool>> UpdateUserProfileAsync(UserProfileDto profileUpdateDto)
+        {
+            return await userClient.UpdateUserProfileAsync(profileUpdateDto);
+        }
+
+        #endregion
+
         #region PhotoService related
 
         public async Task<ServiceResult<IEnumerable<PhotoDto>>> GetAllPhotosAsync()
@@ -38,6 +82,9 @@ namespace PhotoGallery.Bff.Api.Services
             var photo = response.Data!;
 
             var categoryIds = photo.PhotoCategories.Select(pc => pc.CategoryGuid).Distinct().ToList();
+            if(categoryIds.Count <= 0)
+                return ServiceResult<PhotoDto>.Ok(photo, 200);
+
             var categoryMap = await categoryClient.GetCategoriesByIdsAsync(categoryIds);
 
             foreach (var pc in photo.PhotoCategories)
