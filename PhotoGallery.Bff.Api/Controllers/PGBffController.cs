@@ -10,14 +10,14 @@ namespace PhotoGallery.Bff.Api.Controllers
 {
     // TODO:
     // 1. [FINISHED] Add authorization
-    // 2. Check how to handle & return error
+    // 2. Check how to handle & return error (Or use ProblemDetails)
     //      Eg: Results.Problem(type:"", title: "", detail: "", statusCode: StatusCodes.Status400BadRequest);
     // 3. Proper Log error in each microservice (or check how Microservice log error).
-    // 4. Standardize return type ???
+    // 4. Standardize return type ??? (Or Task<Results<NotFound, OK<Object>>>).
     // 5. API Versioning, API Documentation
     // 6. Check EF Core select in batch (SQL DB has parameter limit, eg: Select * from photos where Id in (..up to 1000).
     // 7. Check how to Fine tune data pulling with Filtering, Sorting, Pagination (eg: .Orderby .Skip .Take, etc).
-    // 8. Check how to use Caching in pulling data.
+    // 8. Check how to use Caching in pulling data. Consider IEnumerable Vs IQueryable. Validate User Input.
     // 9. Check how to Add compression on return payloads (Eg: BrotliCompressionProvider or GzipCompressionProvider in Program.cs or DI).
 
     [Route("api/[controller]")]
@@ -202,6 +202,7 @@ namespace PhotoGallery.Bff.Api.Controllers
 
 
         #endregion
+
 
         #region PhotoService related
 

@@ -3,6 +3,6 @@
     public class PhotoCategoryDto
     {
         public Guid CategoryGuid { get; set; }
-        public string CategoryName { get; set; } = string.Empty;
+        public string Title { get; set; } = string.Empty;
     }
 }

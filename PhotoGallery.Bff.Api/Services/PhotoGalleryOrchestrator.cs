@@ -67,7 +67,7 @@ namespace PhotoGallery.Bff.Api.Services
                 var categoryMap = await categoryClient.GetCategoriesByIdsAsync(categoryIds);
                 foreach (var pc in photo.PhotoCategories)
                 {
-                    pc.CategoryName = categoryMap.GetValueOrDefault(pc.CategoryGuid, "Unknown");
+                    pc.Title = categoryMap.GetValueOrDefault(pc.CategoryGuid, "Unknown");
                 }
             }
 
@@ -89,7 +89,7 @@ namespace PhotoGallery.Bff.Api.Services
 
             foreach (var pc in photo.PhotoCategories)
             {
-                pc.CategoryName = categoryMap.GetValueOrDefault(pc.CategoryGuid, "Unknown");
+                pc.Title = categoryMap.GetValueOrDefault(pc.CategoryGuid, "Unknown");
             }
 
             return ServiceResult<PhotoDto>.Ok(photo, 200);
