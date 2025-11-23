@@ -6,13 +6,14 @@ namespace PhotoGallery.Bff.Api.Clients
 {
     public class PhotoServiceClient(HttpClient client)
     {
-        public async Task<ServiceResult<IEnumerable<PhotoDto>>> GetAllPhotos()
+        public async Task<ServiceResult<IEnumerable<PhotoDto>>> GetAllPhotos(Guid? categoryGuid)
         {
             // Standardize the return so below code no longer use.
             //var photos = await client.GetFromJsonAsync<IEnumerable<PhotoDto>>($"api/photos");
             //return photos ?? Enumerable.Empty<PhotoDto>();
 
-            var response = await client.GetAsync($"api/photos");
+            string url = categoryGuid.HasValue ? $"api/photos?categoryGuid={categoryGuid}" : "api/photos";
+            var response = await client.GetAsync(url);
 
             if (response.IsSuccessStatusCode)
             {

@@ -207,9 +207,9 @@ namespace PhotoGallery.Bff.Api.Controllers
         #region PhotoService related
 
         [HttpGet("photos")]
-        public async Task<ActionResult<IEnumerable<PhotoDto>>> GetAllPhotos()
+        public async Task<ActionResult<IEnumerable<PhotoDto>>> GetAllPhotos(Guid? categoryGuid)
         {
-            var result = await bffService.GetAllPhotosAsync();
+            var result = await bffService.GetAllPhotosAsync(categoryGuid);
            
             return result.Success
                 ? Ok(result.Data)
@@ -224,10 +224,9 @@ namespace PhotoGallery.Bff.Api.Controllers
             return result.Success
                 ? Ok(result.Data)
                 : StatusCode(result.StatusCode, new { error = result.ErrMsg });
-
         }
 
-        [Authorize(Roles = "Admin")]
+        //[Authorize(Roles = "Admin")]
         [HttpPost("photos/upsert")]
         public async Task<ActionResult<PhotoDto>> UpsertPhoto([FromForm] PhotoWriteFormDto dto)
         {

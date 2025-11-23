@@ -52,9 +52,9 @@ namespace PhotoGallery.Bff.Api.Services
 
         #region PhotoService related
 
-        public async Task<ServiceResult<IEnumerable<PhotoDto>>> GetAllPhotosAsync()
+        public async Task<ServiceResult<IEnumerable<PhotoDto>>> GetAllPhotosAsync(Guid? categoryGuid)
         {
-            var response = await photoClient.GetAllPhotos();
+            var response = await photoClient.GetAllPhotos(categoryGuid);
             if (!response.Success) return response;
 
             var photos = response.Data!;
